@@ -27,17 +27,11 @@ def robust_analysis():
     # each problem formulation has its own list of outcomes
     dike_model, planning_steps = get_model_for_problem_formulation(5)
 
-    def signal_to_noise(data):
-        mean = np.mean(data)
-        std = np.std(data)
-        print(mean, std)
-        sn = mean / std
-        print(sn)
-        return sn
-
+    # robustness metrics
     MAXIMIZE = ScalarOutcome.MAXIMIZE
     MINIMIZE = ScalarOutcome.MINIMIZE
 
+    # dit kunnen we gebruiken als we stats van alle punten opgeteld willen optimizen
     var_list_deaths = ['A.1_Expected Number of Deaths 0', 'A.1_Expected Number of Deaths 1',
                        'A.1_Expected Number of Deaths 2',
                        'A.2_Expected Number of Deaths 0', 'A.2_Expected Number of Deaths 1',
@@ -49,20 +43,23 @@ def robust_analysis():
                        'A.5_Expected Number of Deaths 0', 'A.5_Expected Number of Deaths 1',
                        'A.5_Expected Number of Deaths 2']
 
+#   de variabelen en manier van optimaliseren, veranderen op basis van wat we moeten optimaliseren
     robustness_functions = [
         ScalarOutcome("mean p", kind=MINIMIZE, variable_name="A.5_Expected Number of Deaths", function=np.mean),
         ScalarOutcome("std p", kind=MINIMIZE, variable_name="A.5_Expected Number of Deaths", function=np.std),
-#        ScalarOutcome("sn reliability", kind=MAXIMIZE, variable_name="Expected Evacuation Costs", function=signal_to_noise),
+        #        ScalarOutcome("sn reliability", kind=MAXIMIZE, variable_name="Expected Evacuation Costs", function=signal_to_noise),
         ScalarOutcome("sn reliability", kind=MINIMIZE, variable_name="Expected Evacuation Costs",
                       function=np.std),
     ]
 
+    # general input
     n_scenarios = 10
     scenarios = sample_uncertainties(dike_model, n_scenarios)
     nfe = 10
 
+    # run model
     with MultiprocessingEvaluator(dike_model) as evaluator:
-        evaluator.robust_optimize(
+        results = evaluator.robust_optimize(
             robustness_functions,
             scenarios,
             nfe=nfe,
@@ -70,7 +67,10 @@ def robust_analysis():
             population_size=5,
         )
 
+    # save to pickle file
+    with open('test.pkl', 'wb') as pickle_file:
+        pickle.dump(results, pickle_file)
 
+    # run file
 if __name__ == '__main__':
     robust_analysis()
-
