@@ -25,27 +25,41 @@ ema_logging.log_to_stderr(ema_logging.INFO)
 def robust_analysis():
     # choose problem formulation number, between 0-5
     # each problem formulation has its own list of outcomes
-    dike_model, planning_steps = get_model_for_problem_formulation(0)
-
-    dike_model.outcomes
+    dike_model, planning_steps = get_model_for_problem_formulation(5)
 
     def signal_to_noise(data):
         mean = np.mean(data)
         std = np.std(data)
+        print(mean, std)
         sn = mean / std
+        print(sn)
         return sn
 
     MAXIMIZE = ScalarOutcome.MAXIMIZE
     MINIMIZE = ScalarOutcome.MINIMIZE
+
+    var_list_deaths = ['A.1_Expected Number of Deaths 0', 'A.1_Expected Number of Deaths 1',
+                       'A.1_Expected Number of Deaths 2',
+                       'A.2_Expected Number of Deaths 0', 'A.2_Expected Number of Deaths 1',
+                       'A.2_Expected Number of Deaths 2',
+                       'A.3_Expected Number of Deaths 0', 'A.3_Expected Number of Deaths 1',
+                       'A.3_Expected Number of Deaths 2',
+                       'A.4_Expected Number of Deaths 0', 'A.4_Expected Number of Deaths 1',
+                       'A.4_Expected Number of Deaths 2',
+                       'A.5_Expected Number of Deaths 0', 'A.5_Expected Number of Deaths 1',
+                       'A.5_Expected Number of Deaths 2']
+
     robustness_functions = [
-        ScalarOutcome("mean p", kind=MINIMIZE, variable_name="4_RfR 2", function=np.mean),
-        ScalarOutcome("std p", kind=MINIMIZE, variable_name="4_RfR 2", function=np.std),
-        ScalarOutcome("sn reliability", kind=MAXIMIZE, variable_name="4_RfR 2", function=signal_to_noise),
+        ScalarOutcome("mean p", kind=MINIMIZE, variable_name="A.5_Expected Number of Deaths", function=np.mean),
+        ScalarOutcome("std p", kind=MINIMIZE, variable_name="A.5_Expected Number of Deaths", function=np.std),
+#        ScalarOutcome("sn reliability", kind=MAXIMIZE, variable_name="Expected Evacuation Costs", function=signal_to_noise),
+        ScalarOutcome("sn reliability", kind=MINIMIZE, variable_name="Expected Evacuation Costs",
+                      function=np.std),
     ]
 
     n_scenarios = 10
     scenarios = sample_uncertainties(dike_model, n_scenarios)
-    nfe = 1000
+    nfe = 10
 
     with MultiprocessingEvaluator(dike_model) as evaluator:
         evaluator.robust_optimize(
