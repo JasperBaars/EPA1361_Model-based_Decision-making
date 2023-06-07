@@ -1,7 +1,7 @@
 """
 Created on Tue Oct 31 13:18:05 2017
 
-@author: ciullo
+@author: ciullogtggr
 """
 import copy
 import numpy as np
