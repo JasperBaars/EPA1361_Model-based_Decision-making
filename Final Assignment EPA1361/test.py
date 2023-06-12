@@ -17,8 +17,7 @@ def test():
     dike_model, planning_steps = get_model_for_problem_formulation(3)
 
     with MultiprocessingEvaluator(dike_model) as evaluator:
-        results2 = evaluator.optimize(nfe=5e3, searchover='levers',
-                                      epsilons=[0.1, ] * len(dike_model.outcomes))
+        results2 = evaluator.optimize(nfe=5e3, searchover='levers', epsilons=[0.1] * len(dike_model.outcomes))
 
 
 if __name__ == '__main__':
