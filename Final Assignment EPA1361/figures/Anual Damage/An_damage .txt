@@ -1,0 +1,14 @@
+coverage     0.4612
+density      1.0000
+id          42.0000
+mass         0.1153
+mean         1.0000
+res_dim      4.0000
+Name: 42, dtype: float64
+
+              box 42                                    
+                 min         max      qp value  qp value
+A.3_pfail   0.000058    0.202872           NaN  0.000000
+A.2_Bmax   30.024721  336.912778           NaN  0.386685
+A.1_pfail   0.334588    0.999973  5.177680e-38       NaN
+A.2_pfail   0.102113    0.999939  8.809016e-16       NaN
