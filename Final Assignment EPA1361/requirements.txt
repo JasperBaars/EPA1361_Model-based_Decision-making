@@ -1,0 +1,9 @@
+ema_workbench
+networkx
+xlrd
+openpyxl
+networkx
+ipyparalel
+scipy
+seaborn
+matplotlib.pyplot
