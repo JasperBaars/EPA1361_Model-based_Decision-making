@@ -8,8 +8,6 @@ import numpy as np
 import pandas as pd
 from collections import defaultdict
 
-from ema_workbench import ema_logging
-
 import funs_generate_network
 from funs_dikes import Lookuplin, dikefailure, init_node
 from funs_economy import cost_fun, discount, cost_evacuation
