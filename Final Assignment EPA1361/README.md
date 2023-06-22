@@ -37,15 +37,5 @@ The main results obtained from this analysis can be found in several Jupyter Not
     ------ *Figures saved from the notebooks*
 ```
 
-To reproduce our results, please install the following packages (these can also be found in the requirements.txt):
-
-ema_workbench <br>
-networkx<br>
-xlrd<br>
-openpyxl<br>
-networkx<br>
-ipyparalel<br>
-scipy<br>
-seaborn<br>
-matplotlib.pyplot
+To reproduce our results, please install the packages listed in the requirement.txt file
 
