@@ -29,32 +29,41 @@ from ema_workbench.analysis import parcoords
 from ema_workbench.analysis import prim
 from ema_workbench import Samplers
 
+
 def model_run():
+    """
+    Function that performs the uncertainty analysis, and saves the output into pickle files
+
+    """
+
+    # initiate model
     dike_model, planning_steps = get_model_for_problem_formulation(5)
     ema_logging.log_to_stderr(ema_logging.INFO)
 
-
+    # load pareto policies into variable
     pareto_policies = pd.read_pickle(r'../generated_datasets/initial_Pareto_policies.pkl')
 
-
+    # load pareto policies into policy instances of the model
     policies = []
     for row_number in range(pareto_policies.shape[0]):
         policies.append(
             Policy(name=row_number, **pareto_policies.iloc[row_number, :-5].to_dict())
         )
 
-    n_scenarios = int(5_000)  # naar 5000 veranderen
+    # set number of scenarios
+    n_scenarios = int(10_000)
 
-
+    # perform the uncertainty analysis
     with MultiprocessingEvaluator(dike_model) as evaluator:
         results = evaluator.perform_experiments(scenarios=n_scenarios,
                                                 policies=policies,
                                                 uncertainty_sampling=Samplers.LHS
                                                 )
 
-
+    # Save results to pickle file
     with open(r'../generated_datasets/policy_uncertainty_test.pkl', 'wb') as file_pi:
         pickle.dump(results, file_pi)
+
 
 if __name__ == '__main__':
     model_run()
