@@ -30,6 +30,7 @@ For ease of access, we made the references to the files and directory clickable.
     ----- 2a. Open Exploration.ipynb
     ----- 2b. MOEA.ipynb
     ----- 3. Uncertainty Analysis.ipynb
+    ----- 3. Uncertainty Analysis.py
     ----- 4. Scenario Discovery.ipynb
 
     generated_datasets\
@@ -37,6 +38,9 @@ For ease of access, we made the references to the files and directory clickable.
 
     Visualisations\
     ------ *Figures saved from the notebooks*
+
+    archives\
+    ------ *archives saved from the notebooks*
 ```
 
 To reproduce our results, please install the packages listed in the requirement.txt file
